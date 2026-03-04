@@ -11,7 +11,7 @@
     Added inputs and fixed some stuff, better Organization, and more!
 --]]
 
-print("v2.1.5")
+print("v2.1.7")
 
 repeat wait() until game:GetService("Players").LocalPlayer
 if game:GetService("CoreGui"):FindFirstChild("imgui2") then
@@ -3431,12 +3431,13 @@ local library library = {
                     end)
 
                     function self.new(type, typeOptions)
-                        assert(typeof(type) == "string", "expected string as #1 argument")
+                        type = type and tostring(type) or "unknown"
+                        assert(typeof(type) == "string", "expected string as #1 argument, got " .. typeof(type))
                         type = type:lower()
-                        assert(type ~= "folder", "illegal type")
+                        assert(type ~= "folder", "illegal type: cannot create folder in dock")
 
                         local p = rawget(types, type)
-                        assert(p, "invalid type")
+                        assert(p, "invalid type: " .. type)
                         local o = p(typeOptions)
                         o.type = type
                         o.self.Parent = self.self
@@ -3517,10 +3518,11 @@ local library library = {
 
                     local folderCache = { }
                     function self.new(type, typeOptions)
-                        assert(typeof(type) == "string", "expected string as #1 argument")
+                        type = type and tostring(type) or "unknown"
+                        assert(typeof(type) == "string", "expected string as #1 argument, got " .. typeof(type))
                         type = type:lower()
                         local p = rawget(types, type)
-                        assert(p, "invalid type")
+                        assert(p, "invalid type: " .. type)
                         local o = p(typeOptions)
                         table.insert(folderCache, o)
                         o.type = type
@@ -3624,11 +3626,12 @@ local library library = {
             end
 
             function self.new(type, typeOptions)
-                assert(typeof(type) == "string", "expected string as #1 argument")
+                type = type and tostring(type) or "unknown"
+                assert(typeof(type) == "string", "expected string as #1 argument, got " .. typeof(type))
                 type = type:lower()
 
                 local p = rawget(types, type)
-                assert(p, "invalid type")
+                assert(p, "invalid type: " .. type)
                 local o = p(typeOptions)
                 o.type = type
 
